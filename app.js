@@ -93,7 +93,7 @@
         solStage.querySelector("[data-lbl]").textContent = en.target.dataset.label;
         solStage.querySelector("[data-rt]").textContent = en.target.dataset.route;
       });
-    }, { rootMargin: "-45% 0px -45% 0px" });
+    }, { rootMargin: matchMedia("(min-width: 980px)").matches ? "-45% 0px -45% 0px" : "-58% 0px -18% 0px" });
     steps.forEach((s) => io.observe(s));
   } else steps.forEach((s) => s.classList.add("is-active"));
 
