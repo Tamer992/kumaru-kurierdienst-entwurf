@@ -53,7 +53,9 @@
     stage.innerHTML = '<div class="ground"></div>' + SCENES[el.dataset.scene].map(box).join("");
     el.appendChild(stage);
     stages[el.dataset.scene] = stage;
-    requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-ready")));
+    const ready = () => requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-ready")));
+    if (el.dataset.scene === "hero") ready();
+    else el.classList.add("is-ready"); // unterhalb des Bildschirms ohne Aufbau-Animation: spart Rechenzeit beim Laden
   });
 
   /* Feder: Paketgruppe folgt dem Zeiger, ohne Leerlauf-Schleife */
@@ -149,17 +151,28 @@
     const cs = getComputedStyle(cv.closest(".net"));
     const rgb = (v) => { const c = document.createElement("canvas").getContext("2d"); c.fillStyle = v.trim(); return c.fillStyle.match(/\w\w/g).map((h) => parseInt(h, 16)); };
     const navy = rgb(cs.getPropertyValue("--navy")), red = rgb(cs.getPropertyValue("--accent"));
-    const hx = px(8.52) * k, hy = py(49.39) * k, reach = 520;
-    let row = 0;
-    for (let lat = LAT1; lat > LAT0; lat -= 0.2, row++) for (let lon = LON0 + (row % 2) * 0.15; lon < LON1; lon += 0.3) {
-      if (!LAND.some((p) => inside([lon, lat], p))) continue;
-      const x = px(lon) * k, y = py(lat) * k, t = Math.max(0, 1 - Math.hypot(x - hx, y - hy) / reach), e = t * t;
-      const c = navy.map((v, i) => Math.round(v + (red[i] - v) * e));
-      ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${0.34 + 0.62 * e})`;
-      ctx.beginPath(); ctx.arc(x, y, 3 + 1.6 * e, 0, 7); ctx.fill();
-    }
+    const hx = px(8.52) * k, hy = py(49.39) * k, reach = 520 * k / 2, rs = k / 2;
+    let row = 0, lat = LAT1;
+    // in Häppchen von ca. 6 ms zeichnen, damit der Hauptthread frei bleibt
+    const slice = () => {
+      const t0 = performance.now();
+      while (lat > LAT0 && performance.now() - t0 < 6) {
+        for (let lon = LON0 + (row % 2) * 0.15; lon < LON1; lon += 0.3) {
+          if (!LAND.some((p) => inside([lon, lat], p))) continue;
+          const x = px(lon) * k, y = py(lat) * k, t = Math.max(0, 1 - Math.hypot(x - hx, y - hy) / reach), e = t * t;
+          const c = navy.map((v, i) => Math.round(v + (red[i] - v) * e));
+          ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${0.34 + 0.62 * e})`;
+          ctx.beginPath(); ctx.arc(x, y, (3 + 1.6 * e) * rs, 0, 7); ctx.fill();
+        }
+        lat -= 0.2; row++;
+      }
+      if (lat > LAT0) setTimeout(slice, 16);
+    };
+    slice();
   }
-  drawDots();
+
+  // Punktraster nach dem Laden zeichnen, wenn der Browser Luft hat
+  addEventListener("load", () => (window.requestIdleCallback || setTimeout)(drawDots, { timeout: 1500 }));
 
   // [Name, Länge, Breite, Hub?, Beschriftungsrichtung]
   const CITIES = [
@@ -198,8 +211,7 @@
     netIO.disconnect();
   }, { threshold: 0.35 });
   netIO.observe($("netMap"));
-  matchMedia("(prefers-color-scheme: dark)").addEventListener("change", drawDots);
-
+  
   /* ---------- Zähler: Walzen statt Hochzählen ---------- */
   document.querySelectorAll(".odo").forEach((el) => {
     const v = el.dataset.value; let n = 0;
