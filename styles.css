@@ -291,7 +291,8 @@ body.menu-open { overflow: hidden; }
 .ind__tile { position: relative; min-height: 420px; border-radius: 22px; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; text-decoration: none; isolation: isolate; background: var(--surface-2); }
 .ind__tile::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(55% 70% at 68% 34%, #ffffff, rgba(255, 255, 255, 0) 70%); }
 .ind__img { position: absolute; z-index: -1; top: 5%; height: 48%; width: auto; max-width: 78%; object-fit: contain; transition: transform 500ms var(--ease); }
-.ind__tile--a .ind__img, .ind__tile--d .ind__img { right: 14%; }
+.ind__tile--a .ind__img { right: 14%; }
+.ind__tile--d .ind__img { left: 22%; }
 .ind__tile--b .ind__img, .ind__tile--c .ind__img { left: 50%; translate: -50% 0; }
 .ind__tile--b .ind__img { top: 3%; height: 49%; }
 .ind__tile--d .ind__img { top: 3%; height: 49%; }
