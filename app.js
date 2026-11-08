@@ -42,9 +42,9 @@
     hero: [
       { w: 150, h: 104, d: 128, x: 215, z: 120, a: 18, delay: 300 },
       { w: 190, h: 132, d: 160, x: -240, z: 90, a: -12, delay: 150 },
-      { w: 280, h: 190, d: 230, x: 0, z: -40, a: 4, label: "EXPRESS", route: "DIREKT A > B", print: true },
+      { w: 280, h: 190, d: 230, x: 0, z: -40, a: 4, label: "EXPRESS", route: "BRÜHL > ZIEL", print: true },
     ],
-    sol: [{ w: 330, h: 230, d: 270, x: 0, z: 0, a: 0, label: "DIREKT", route: "A > B", print: true }],
+    sol: [{ w: 330, h: 230, d: 270, x: 0, z: 0, a: 0, label: "DIREKT", route: "BRÜHL > ZIEL", print: true }],
   };
   const stages = {};
   document.querySelectorAll("[data-scene]").forEach((el) => {
