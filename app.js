@@ -133,7 +133,7 @@
     const next = tabs[(i + n + tabs.length) % tabs.length];
     next.focus(); showVehicle(next);
   }));
-  showVehicle(tabs.find((b) => b.getAttribute("aria-selected") === "true"));
+  if (tabs.length) showVehicle(tabs.find((b) => b.getAttribute("aria-selected") === "true"));
 
   /* ---------- Einsatzgebiet: Europakarte ---------- */
   const LON0 = -8, LON1 = 28, LAT0 = 40, LAT1 = 57.4, W = 1000, H = 725;
@@ -183,7 +183,7 @@
   }
 
   // Punktraster nach dem Laden zeichnen, wenn der Browser Luft hat
-  addEventListener("load", () => (window.requestIdleCallback || setTimeout)(drawDots, { timeout: 1500 }));
+  if ($("netDots")) addEventListener("load", () => (window.requestIdleCallback || setTimeout)(drawDots, { timeout: 1500 }));
 
   // [Name, Länge, Breite, Hub?, Beschriftungsrichtung]
   const CITIES = [
@@ -193,6 +193,7 @@
     ["Warschau", 21, 52.23], ["Kopenhagen", 12.57, 55.68, false, "up"], ["Barcelona", 2.17, 41.39],
   ];
   const svg = $("netSvg"), NS = "http://www.w3.org/2000/svg";
+  if (svg) {
   const hub = CITIES[0], hx = px(hub[1]), hy = py(hub[2]);
   const arcs = [];
   CITIES.slice(1).forEach((c, i) => {
@@ -222,6 +223,7 @@
     netIO.disconnect();
   }, { threshold: 0.35 });
   netIO.observe($("netMap"));
+  }
   
   /* ---------- Zähler: Walzen statt Hochzählen ---------- */
   document.querySelectorAll(".odo").forEach((el) => {
@@ -240,15 +242,16 @@
   /* ---------- Kundennamen laufen von links ein ---------- */
   const logos = $("logos");
   const lio = new IntersectionObserver(([en]) => { if (en.isIntersecting) { logos.classList.add("is-in"); lio.disconnect(); } }, { threshold: 0.5 });
-  reduce ? logos.classList.add("is-in") : lio.observe(logos);
+  if (logos) reduce ? logos.classList.add("is-in") : lio.observe(logos);
 
   /* ---------- Statement "Inhabergeführt" ---------- */
   const stm = document.querySelector(".stm");
   const sio = new IntersectionObserver(([en]) => { if (en.isIntersecting) { stm.classList.add("is-in"); sio.disconnect(); } }, { threshold: 0.35 });
-  reduce ? stm.classList.add("is-in") : sio.observe(stm);
+  if (stm) reduce ? stm.classList.add("is-in") : sio.observe(stm);
 
   /* ---------- Anfrage (Demo, kein Versand) ---------- */
   const form = $("orderForm"), done = $("done");
+  if (form) {
   const req = [...form.querySelectorAll("[required]")];
   const bad = (el) => !el.value.trim() || (el.type === "email" && !/^\S+@\S+\.\S+$/.test(el.value));
   const mark = (el, isBad) => {
@@ -264,12 +267,14 @@
     if (first) return first.focus();
     done.hidden = false; form.reset();
   });
+  }
 
   /* ---------- Logo: Seite neu laden, Start oben ---------- */
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   document.querySelectorAll("[data-reload]").forEach((a) => a.addEventListener("click", (e) => {
+    if (!/(^|\/)(index\.html)?$/.test(location.pathname)) return; // auf Unterseiten normal zur Startseite
     e.preventDefault();
-    location.href === location.origin + location.pathname ? location.reload() : location.assign(location.pathname + location.search);
+    location.hash ? location.assign(location.pathname + location.search) : location.reload();
   }));
 
   /* ---------- Kopfzeile: Glas ab dem ersten Scrollen ---------- */
