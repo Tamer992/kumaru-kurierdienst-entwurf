@@ -241,7 +241,7 @@ body.menu-open { overflow: hidden; }
 .veh__tabs button[aria-selected="true"]::after { transform: scaleX(1); }
 @media (hover: hover) and (pointer: fine) { .veh__tabs button:hover { color: var(--ink); } }
 .veh__panel { margin-top: 20px; border-radius: 28px; overflow: hidden; background: #0b1017; box-shadow: 0 40px 70px -48px rgba(17, 24, 39, 0.55); }
-.veh__stage { position: relative; padding: clamp(18px, 2.4vw, 32px) clamp(20px, 4vw, 64px) 0; background: #fff; }
+.veh__stage { position: relative; padding: clamp(18px, 2.4vw, 32px) clamp(20px, 4vw, 64px) 0; background: #fff; }
 .veh__name { font-size: clamp(1.4rem, 2.2vw, 2rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); }
 .veh__img { position: relative; display: grid; place-items: center; padding: clamp(0px, 1vw, 12px) 0 clamp(24px, 3vw, 40px); }
 .veh__img::before { content: ""; position: absolute; left: 50%; bottom: clamp(26px, 3.2vw, 44px); width: min(74%, 640px); height: clamp(14px, 2vw, 26px); transform: translateX(-50%); background: radial-gradient(closest-side, rgba(17, 24, 39, 0.34), rgba(17, 24, 39, 0)); }
@@ -294,6 +294,10 @@ body.menu-open { overflow: hidden; }
 .ind__tile--a .ind__img, .ind__tile--d .ind__img { right: 6%; }
 .ind__tile--b .ind__img, .ind__tile--c .ind__img { left: 50%; translate: -50% 0; }
 .ind__tile--d .ind__img { top: 4%; height: 60%; }
+@media (max-width: 979px) {
+  .ind__tile { min-height: 0; justify-content: flex-start; }
+  .ind__img, .ind__tile--a .ind__img, .ind__tile--b .ind__img, .ind__tile--c .ind__img, .ind__tile--d .ind__img { position: relative; inset: auto; translate: none; z-index: auto; align-self: center; height: clamp(170px, 46vw, 240px); width: auto; max-width: calc(100% - 40px); margin: 26px 20px 0; }
+}
 @media (hover: hover) and (pointer: fine) { .ind__tile:hover .ind__img { transform: translateY(-5px); } }
 .ind__tile--a, .ind__tile--d { background: var(--surface-2); }
 .ind__t { padding: clamp(20px, 2.6vw, 32px); display: grid; gap: 8px; max-width: 46ch; color: var(--muted); font-size: 1rem; line-height: 1.45; }

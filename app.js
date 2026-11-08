@@ -105,9 +105,19 @@
   function showVehicle(t) {
     tabs.forEach((b) => b.setAttribute("aria-selected", String(b === t)));
     const d = t.dataset;
+    vImg.dataset.want = d.img; // jüngste Auswahl merken, ältere Ladevorgänge verfallen
     if (vImg.getAttribute("src") !== d.img) {
-      vImg.src = d.img; vImg.alt = d.name + " im Kumaru-Design";
-      vImg.style.animation = "none"; void vImg.offsetWidth; vImg.style.animation = ""; // Wisch von links neu starten
+      const want = d.img;
+      const swap = () => {
+        if (vImg.dataset.want !== want) return; // inzwischen ein anderes Fahrzeug gewählt
+        vImg.src = want; vImg.alt = d.name + " im Kumaru-Design";
+        vImg.style.animation = "none"; void vImg.offsetWidth; vImg.style.animation = "";
+      };
+      // erst entschlüsseln, dann tauschen: kein Aufblitzen und kein Ruckeln beim Wechsel
+      let done = false; const go = () => { if (!done) { done = true; swap(); } };
+      const pre = new Image(); pre.src = want;
+      pre.decode ? pre.decode().then(go, go) : (pre.onload = go);
+      setTimeout(go, 1500); // Notausgang, falls der Browser das Entschlüsseln aufschiebt
     }
     $("vName").textContent = d.name;
     $("vL").textContent = d.l; $("vB").textContent = d.b; $("vH").textContent = d.h;
@@ -115,6 +125,7 @@
     $("vLoad").textContent = d.load;
     $("vLift").textContent = d.lift;
   }
+  addEventListener("load", () => (window.requestIdleCallback || setTimeout)(() => tabs.forEach((t) => { const i = new Image(); i.src = t.dataset.img; })));
   tabs.forEach((t) => t.addEventListener("click", () => showVehicle(t)));
   tabs.forEach((t, i) => t.addEventListener("keydown", (e) => {
     const n = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
