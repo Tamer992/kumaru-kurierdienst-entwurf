@@ -292,10 +292,15 @@ body.menu-open { overflow: hidden; }
 .ind__tile::before { content: ""; position: absolute; inset: 0; z-index: -2; background: radial-gradient(55% 70% at 68% 34%, #ffffff, rgba(255, 255, 255, 0) 70%); }
 .ind__img { position: absolute; z-index: -1; top: 5%; height: 48%; width: auto; max-width: 78%; object-fit: contain; transition: transform 500ms var(--ease); }
 .ind__tile--a .ind__img { right: 14%; }
-.ind__tile--d .ind__img { left: 22%; }
+
 .ind__tile--b .ind__img, .ind__tile--c .ind__img { left: 50%; translate: -50% 0; }
 .ind__tile--b .ind__img { top: 3%; height: 49%; }
-.ind__tile--d .ind__img { top: 3%; height: 49%; }
+@media (min-width: 980px) {
+  /* breite Kachel: Text links in einer schmalen Spalte, Palette groß rechts daneben */
+  .ind__tile--d { container-type: inline-size; }
+  .ind__tile--d .ind__t { max-width: 44cqw; }
+  .ind__tile--d .ind__img { top: 5%; right: 3cqw; left: auto; height: 86%; width: 53cqw; max-width: none; object-fit: contain; object-position: center bottom; }
+}
 @media (max-width: 979px) {
   .ind__tile { min-height: 0; justify-content: flex-start; }
   .ind__img, .ind__tile--a .ind__img, .ind__tile--b .ind__img, .ind__tile--c .ind__img, .ind__tile--d .ind__img { position: relative; inset: auto; translate: none; z-index: auto; align-self: center; height: clamp(170px, 46vw, 240px); width: auto; max-width: calc(100% - 40px); margin: 26px 20px 0; }
