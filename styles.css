@@ -277,6 +277,36 @@ body.menu-open { overflow: hidden; }
 .veh__spec dd small { font-size: 0.875rem; font-weight: 500; color: #a3aebf; letter-spacing: 0; margin-left: 4px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
+/* ---------- Fuhrpark ---------- */
+.fleet { background: var(--surface-2); padding-block: clamp(64px, 9vw, 120px); overflow: clip; }
+.fleet__head > p { margin-top: 18px; color: var(--muted); font-size: 1.15rem; }
+.fleet__row { display: block; margin-top: clamp(32px, 5vw, 64px); overflow: hidden; }
+.fleet__row img { display: block; width: 100%; height: auto; }
+.fleet__grid { margin-top: clamp(28px, 4vw, 56px); display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+.fleet__ph { flex: 0 0 74%; scroll-snap-align: start; }
+.fleet figure { margin: 0; }
+.fleet figure img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 22px; background: var(--surface); }
+.fleet figcaption { margin-top: 14px; padding-left: 12px; border-left: 2px solid var(--accent); font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); line-height: 1.2; }
+@media (min-width: 720px) {
+  .fleet__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.5vw, 36px); overflow: visible; scroll-snap-type: none; padding-bottom: 0; }
+  .fleet__ph { flex: none; }
+  .fleet__ph:nth-child(2) { margin-top: clamp(28px, 5vw, 80px); }
+  .fleet__row img { aspect-ratio: 1600 / 480; object-fit: cover; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .fleet figure { overflow: hidden; }
+  .fleet figure img { transition: transform 500ms var(--ease); }
+  .fleet figure:hover img { transform: scale(1.03); }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .fleet__ph { animation: fleet-in linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+    .fleet__row img { animation: fleet-pan linear both; animation-timeline: view(); animation-range: entry 0% cover 50%; }
+    @keyframes fleet-in { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
+    @keyframes fleet-pan { from { transform: scale(1.08); } to { transform: none; } }
+  }
+}
+
 /* ---------- Einsatzgebiet ---------- */
 .net, .foot { --bg: #0b1017; --ink: #eef1f6; --muted: #a3aebf; --line: rgba(255, 255, 255, 0.12); --line-strong: rgba(255, 255, 255, 0.28); --navy: #8ea4c6; --tint: #0b1017; --accent: #e04848; --accent-text: #ff7b7b; background: #0b1017; color: var(--ink); }
 .net__in { width: min(var(--wrap), 100% - var(--gutter) * 2); margin: 0 auto; padding-block: clamp(64px, 9vw, 120px); display: grid; gap: 40px; align-items: center; }
