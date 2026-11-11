@@ -155,7 +155,6 @@ body.menu-open { overflow: hidden; }
 .hero__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
 .hero__in { width: min(var(--wrap), 100% - var(--gutter) * 2); margin: 0 auto; display: grid; align-items: center; }
 @media (min-width: 980px) { .hero__in { min-height: min(560px, calc(100dvh - var(--head-h) - 140px)); } }
-.hero__sub { margin-top: 26px; font-size: 1.2rem; line-height: 1.5; color: rgba(255, 255, 255, 0.92); max-width: 44ch; }
 .hero .btn--ghost { background: transparent; color: #fff; border-color: rgba(255, 255, 255, 0.7); box-shadow: none; }
 .hero :focus-visible { outline-color: #fff; }
 .hero__cta { margin-top: 34px; display: flex; flex-wrap: wrap; gap: 12px; }
@@ -163,7 +162,7 @@ body.menu-open { overflow: hidden; }
 .ln > span { display: inline-block; animation: wipe 900ms var(--ease) both; animation-delay: calc(var(--i) * 140ms + 100ms); }
 @keyframes veh-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes wipe { from { clip-path: inset(-0.2em 100% -0.2em -0.1em); } to { clip-path: inset(-0.2em -0.1em -0.2em -0.1em); } }
-.hero__sub, .hero__cta { animation: settle 700ms var(--ease) 420ms both; }
+.hero__cta { animation: settle 700ms var(--ease) 420ms both; }
 @keyframes settle { from { opacity: 0; } to { opacity: 1; } }
 
 /* ---------- 3D-Paket ---------- */
@@ -417,7 +416,7 @@ body.menu-open { overflow: hidden; }
 /* ---------- Reduzierte Bewegung ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .ln > span, .hero__sub, .hero__cta, .veh__img img { animation: none; }
+  .ln > span, .hero__cta, .veh__img img { animation: none; }
   .scene:not(.is-ready) .face { --ex: 0px; opacity: 1; }
   .face { transition: none; }
   .step { transition: opacity 200ms ease; }
