@@ -278,32 +278,49 @@ body.menu-open { overflow: hidden; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
 /* ---------- Fuhrpark ---------- */
-.fleet { background: var(--surface-2); padding-block: clamp(64px, 9vw, 120px); overflow: clip; }
-.fleet__head > p { margin-top: 18px; color: var(--muted); font-size: 1.15rem; }
-.fleet__row { display: block; margin-top: clamp(32px, 5vw, 64px); overflow: hidden; }
+.fleet { position: relative; background: radial-gradient(70% 38% at 50% 84%, rgba(201, 52, 52, 0.2), transparent 70%), #0e141c; color: #fff; padding-block: clamp(64px, 9vw, 120px); overflow: clip; }
+.fleet + .net { border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.fleet h2 { color: #fff; }
+.fleet__head > p { margin-top: 18px; color: rgba(255, 255, 255, 0.72); font-size: 1.15rem; }
+.fleet__row { position: relative; display: block; margin-top: clamp(32px, 5vw, 64px); overflow: hidden; }
 .fleet__row img { display: block; width: 100%; height: auto; }
-.fleet__grid { margin-top: clamp(28px, 4vw, 56px); display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
-.fleet__ph { flex: 0 0 74%; scroll-snap-align: start; }
-.fleet figure { margin: 0; }
-.fleet figure img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 22px; background: var(--surface); }
-.fleet figcaption { margin-top: 14px; padding-left: 12px; border-left: 2px solid var(--accent); font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); line-height: 1.2; }
+.fleet__row::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--accent); transform-origin: left; }
+.fleet__grid { margin-top: clamp(32px, 5vw, 72px); display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+.fleet__ph { flex: 0 0 76%; scroll-snap-align: start; }
+.fleet figure { position: relative; margin: 0; border-radius: 22px; overflow: hidden; background: #1a222d; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8); }
+.fleet figure img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: cover; scale: 1.08; transition: scale 600ms var(--ease); }
+.fleet figcaption { position: absolute; left: 14px; bottom: 14px; rotate: -2deg; transform-origin: 0 100%; background: #fff; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px rgba(17, 24, 39, 0.14), 0 12px 24px -10px rgba(17, 24, 39, 0.55); font-family: var(--f-mono); transition: transform 300ms var(--ease); }
+.fleet figcaption b { display: block; background: var(--accent); color: #fff; font-size: 0.5625rem; letter-spacing: 0.22em; padding: 3px 10px; }
+.fleet figcaption span { display: block; color: var(--ink); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 6px 10px 7px; }
 @media (min-width: 720px) {
-  .fleet__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2.5vw, 36px); overflow: visible; scroll-snap-type: none; padding-bottom: 0; }
+  .fleet__grid { display: grid; grid-template-columns: repeat(12, 1fr); align-items: end; gap: clamp(14px, 2vw, 30px); overflow: visible; scroll-snap-type: none; padding-bottom: 0; }
   .fleet__ph { flex: none; }
-  .fleet__ph:nth-child(2) { margin-top: clamp(28px, 5vw, 80px); }
+  .fleet__ph--a { grid-column: 1 / span 4; }
+  .fleet__ph--b { grid-column: 5 / span 5; }
+  .fleet__ph--c { grid-column: 10 / span 3; }
   .fleet__row img { aspect-ratio: 1600 / 480; object-fit: cover; }
+  .fleet figcaption { left: 18px; bottom: 18px; }
 }
 @media (hover: hover) and (pointer: fine) {
-  .fleet figure { overflow: hidden; }
-  .fleet figure img { transition: transform 500ms var(--ease); }
-  .fleet figure:hover img { transform: scale(1.03); }
+  .fleet figure:hover img { scale: 1.14; }
+  .fleet figure:hover figcaption { transform: translateY(-4px); }
 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .fleet__ph { animation: fleet-in linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
-    .fleet__row img { animation: fleet-pan linear both; animation-timeline: view(); animation-range: entry 0% cover 50%; }
-    @keyframes fleet-in { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
-    @keyframes fleet-pan { from { transform: scale(1.08); } to { transform: none; } }
+    .fleet__row { animation: fleet-wipe linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+    .fleet__row img { animation: fleet-settle linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
+    .fleet__row::after { animation: fleet-line linear both; animation-timeline: view(); animation-range: entry 30% cover 40%; }
+    @keyframes fleet-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+    @keyframes fleet-settle { from { scale: 1.06; } to { scale: 1; } }
+    @keyframes fleet-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  }
+  @media (min-width: 720px) and (prefers-reduced-motion: no-preference) {
+    .fleet__ph { animation: fleet-up linear both; animation-timeline: view(); animation-range: entry 0% entry 60%; }
+    .fleet__ph--b { animation-range: entry 8% entry 68%; }
+    .fleet__ph--c { animation-range: entry 16% entry 76%; }
+    .fleet figure img { animation: fleet-par linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+    @keyframes fleet-up { from { opacity: 0; transform: translateY(56px); } to { opacity: 1; transform: none; } }
+    @keyframes fleet-par { from { translate: 0 -5%; } to { translate: 0 5%; } }
   }
 }
 
