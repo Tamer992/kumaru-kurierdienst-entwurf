@@ -32,7 +32,7 @@
   function box(s) {
     const faces = FACES.map((f, i) => {
       let inner = "";
-      if (f === "front" && s.label) inner = `<div class="label"><em>KUMARU</em><i></i><b data-lbl>${s.label}</b><span data-rt>${s.route}</span></div>`;
+      if (f === "front" && s.label) inner = `<div class="label"><em>KUMARU</em><i></i><b${s.fixed ? "" : " data-lbl"}>${s.label}</b><span${s.fixed ? "" : " data-rt"}>${s.route}</span></div>`;
       if (f === "right" && s.print) inner = '<img class="print print--light" src="img/kumaru-logo-dunkel.png" alt=""><img class="print print--dark" src="img/kumaru-logo-hell.png" alt="">';
       return `<i class="face f-${f}" style="--dl:${(s.delay || 0) + i * 70}ms">${inner}</i>`;
     }).join("");
@@ -45,8 +45,8 @@
       { w: 280, h: 190, d: 230, x: 0, z: -40, a: 4, label: "EXPRESS", route: "BRÜHL > ZIEL", print: true },
     ],
     sol: [
-      { w: 150, h: 104, d: 128, x: 215, z: 120, a: 18 },
-      { w: 190, h: 132, d: 160, x: -240, z: 90, a: -12 },
+      { w: 150, h: 104, d: 128, x: 215, z: 120, a: 18, print: true },
+      { w: 190, h: 132, d: 160, x: -240, z: 90, a: -12, print: true, label: "EXPRESS", route: "BRÜHL > ZIEL", fixed: true },
       { w: 280, h: 190, d: 230, x: 0, z: -40, a: 4, label: "DIREKT", route: "BRÜHL > ZIEL", print: true },
     ],
   };
