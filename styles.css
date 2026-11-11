@@ -283,14 +283,6 @@ body.menu-open { overflow: hidden; }
   .fleet figure:hover img { scale: 1.14; }
 }
 @supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .fleet__row { animation: fleet-wipe linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
-    .fleet__row img { animation: fleet-settle linear both; animation-timeline: view(); animation-range: entry 0% entry 100%; }
-    .fleet__row::after { animation: fleet-line linear both; animation-timeline: view(); animation-range: entry 30% cover 40%; }
-    @keyframes fleet-wipe { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
-    @keyframes fleet-settle { from { scale: 1.06; } to { scale: 1; } }
-    @keyframes fleet-line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-  }
   @media (min-width: 720px) and (prefers-reduced-motion: no-preference) {
     .fleet figure img { animation: fleet-par linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
     @keyframes fleet-par { from { translate: 0 -5%; } to { translate: 0 5%; } }
