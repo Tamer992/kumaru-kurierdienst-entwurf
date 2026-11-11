@@ -45,8 +45,8 @@
       { w: 280, h: 190, d: 230, x: 0, z: -40, a: 4, label: "EXPRESS", route: "BRÜHL > ZIEL", print: true },
     ],
     sol: [
-      { w: 150, h: 104, d: 128, x: 215, z: 120, a: 18, print: true },
-      { w: 190, h: 132, d: 160, x: -240, z: 90, a: -12, print: true, label: "EXPRESS", route: "BRÜHL > ZIEL", fixed: true },
+      { w: 150, h: 104, d: 128, x: 250, z: 150, a: 18, print: true },
+      { w: 190, h: 132, d: 160, x: -262, z: 160, a: -12, print: true, label: "EXPRESS", route: "BRÜHL > ZIEL", fixed: true },
       { w: 280, h: 190, d: 230, x: 0, z: -40, a: 4, label: "DIREKT", route: "BRÜHL > ZIEL", print: true },
     ],
   };
