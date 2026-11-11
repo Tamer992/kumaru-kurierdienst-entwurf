@@ -33,7 +33,7 @@
     const faces = FACES.map((f, i) => {
       let inner = "";
       if (f === "front" && s.label) inner = `<div class="label"><em>KUMARU</em><i></i><b${s.fixed ? "" : " data-lbl"}>${s.label}</b><span${s.fixed ? "" : " data-rt"}>${s.route}</span></div>`;
-      if (f === "right" && s.print) inner = '<img class="print print--light" src="img/kumaru-logo-dunkel.png" alt=""><img class="print print--dark" src="img/kumaru-logo-hell.png" alt="">';
+      if (f === "right" && s.print) inner = '<img class="print print--light" src="img/kumaru-logo-dunkel.png?v=2" alt=""><img class="print print--dark" src="img/kumaru-logo-hell.png?v=2" alt="">';
       return `<i class="face f-${f}" style="--dl:${(s.delay || 0) + i * 70}ms">${inner}</i>`;
     }).join("");
     return `<div class="box" style="--w:${u(s.w)};--h:${u(s.h)};--d:${u(s.d)};--x:${u(s.x)};--z:${u(s.z)};--a:${s.a}deg">${faces}</div>`;
